@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>阿欣 · AI 赋能顾问｜帮一人公司和职场人用 AI 提效</title>
+<meta name="description" content="阿欣，AI 赋能顾问。帮你把 AI 变成日常工作和内容生产的实际生产力：AI 内容工作流搭建、一人公司 AI 提效咨询、AI 工具入门陪跑。">
+<meta name="theme-color" content="#12395f">
+<meta property="og:title" content="阿欣 · AI 赋能顾问">
+<meta property="og:description" content="帮你把 AI 变成日常工作和内容生产的实际生产力。">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2312395f'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='19' fill='%23ffffff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --brand:#12395f;
+    --brand-dark:#0d2a46;
+    --brand-soft:#eaf1f8;
+    --accent:#2f6f9f;
+    --text:#1b2430;
+    --muted:#5c6b7a;
+    --bg:#f7f9fc;
+    --surface:#ffffff;
+    --line:#e3e9f0;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(16,42,67,.04), 0 8px 24px rgba(16,42,67,.06);
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+
+  html{
+    -webkit-text-size-adjust:100%;
+    scroll-behavior:smooth;
+  }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+    font-size:16px;
+    line-height:1.7;
+  }
+
+  h1,h2,h3{color:var(--brand-dark);font-weight:800;letter-spacing:-.01em}
+  p{margin:0 0 12px}
+  a{color:var(--brand);text-decoration:none}
+  a:hover{text-decoration:underline}
+  ul{margin:0;padding:0;list-style:none}
+  figure{margin:0}
+
+  [id]{scroll-margin-top:80px}
+
+  .wrap{
+    width:100%;
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  .skip-link{
+    position:absolute;
+    left:-9999px;
+    top:0;
+    z-index:30;
+    background:#fff;
+    color:var(--brand);
+    padding:10px 16px;
+    border-radius:0 0 10px 0;
+    font-size:14px;
+  }
+  .skip-link:focus{left:0}
+
+  /* ---------- 顶部导航 ---------- */
+  .site-header{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(255,255,255,.9);
+    -webkit-backdrop-filter:saturate(180%) blur(10px);
+    backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .site-header .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    min-height:64px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:15px;
+    font-weight:700;
+    color:var(--brand-dark);
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .brand:hover{text-decoration:none}
+  .brand .mark{
+    width:28px;
+    height:28px;
+    border-radius:8px;
+    background:var(--brand);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-size:13px;
+    font-weight:700;
+    flex:none;
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    font-size:15px;
+  }
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    font-size:15px;
+  }
+  .nav-links a{color:var(--muted);text-decoration:none}
+  .nav-links a:hover{color:var(--brand);text-decoration:none}
+
+  /* ---------- 按钮 ---------- */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:13px 26px;
+    border-radius:10px;
+    border:1px solid transparent;
+    font-size:16px;
+    font-weight:600;
+    line-height:1.2;
+    text-decoration:none;
+    transition:background-color .15s ease,border-color .15s ease,color .15s ease;
+  }
+  .btn:hover{text-decoration:none}
+  .btn-primary{background:var(--brand);color:#fff}
+  .btn-primary:hover{background:var(--brand-dark);color:#fff}
+  .btn-ghost{background:#fff;color:var(--brand);border-color:#cfdceb}
+  .btn-ghost:hover{border-color:var(--brand)}
+  .btn-sm{padding:9px 18px;font-size:14px}
+
+  /* ---------- 首屏 ---------- */
+  .hero{
+    padding:80px 0 72px;
+    background:linear-gradient(180deg,#f1f6fb 0%,var(--bg) 100%);
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin:0 0 22px;
+    padding:6px 14px;
+    border-radius:999px;
+    background:var(--brand-soft);
+    color:var(--brand);
+    font-size:14px;
+    font-weight:600;
+  }
+  .eyebrow::before{
+    content:"";
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--accent);
+    flex:none;
+  }
+  .hero h1{
+    margin:0 0 18px;
+    max-width:16em;
+    font-size:clamp(28px,5.2vw,44px);
+    line-height:1.28;
+  }
+  .hero .lead{
+    margin:0;
+    max-width:34em;
+    font-size:clamp(16px,2.1vw,18px);
+    color:var(--muted);
+  }
+  .hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin:32px 0 0;
+  }
+  .tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin:30px 0 0;
+  }
+  .tags li{
+    padding:6px 14px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:#fff;
+    font-size:14px;
+    color:#455565;
+  }
+  .hero-note{
+    margin:22px 0 0;
+    font-size:14px;
+    color:var(--muted);
+  }
+
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.12fr .88fr;
+    gap:56px;
+    align-items:center;
+  }
+  .hero-photo{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:linear-gradient(180deg,#eaf1f8 0%,#dde8f3 100%);
+    box-shadow:0 1px 2px rgba(16,42,67,.04), 0 14px 34px rgba(16,42,67,.10);
+    aspect-ratio:1 / 1;
+  }
+  .hero-photo::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 50% 36%, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 62%);
+  }
+  .hero-photo img{
+    position:relative;
+    z-index:1;
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center top;
+  }
+  /* ---------- 通用区块 ---------- */
+  .section{padding:76px 0}
+  .section-white{background:var(--surface)}
+  .section-head{
+    max-width:660px;
+    margin:0 0 36px;
+  }
+  .kicker{
+    margin:0 0 10px;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.14em;
+    color:var(--accent);
+  }
+  .section h2{
+    margin:0 0 12px;
+    font-size:clamp(22px,3.2vw,30px);
+    line-height:1.35;
+  }
+  .section-sub{margin:0;color:var(--muted)}
+
+  /* ---------- 卡片与网格 ---------- */
+  .grid{display:grid;gap:20px}
+  .grid-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+
+  .card{
+    display:flex;
+    flex-direction:column;
+    padding:26px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+
+  .card h3{
+    margin:0 0 14px;
+    font-size:19px;
+    line-height:1.4;
+  }
+
+  .spec{
+    display:grid;
+    grid-template-columns:56px 1fr;
+    gap:10px 14px;
+    margin:0 0 20px;
+    font-size:14.5px;
+  }
+  .spec dt{
+    color:var(--muted);
+    font-weight:600;
+  }
+  .spec dd{
+    margin:0;
+    color:#3a4a5a;
+  }
+  .spec dd strong{color:var(--brand);font-weight:600}
+
+  .service-meta{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin:0 0 20px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .price{
+    font-size:24px;
+    font-weight:800;
+    color:var(--brand-dark);
+    letter-spacing:-.02em;
+  }
+  .chip{
+    padding:4px 12px;
+    border-radius:999px;
+    background:var(--brand-soft);
+    color:var(--brand);
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .card-cta{
+    margin-top:auto;
+    padding-top:4px;
+    font-size:15px;
+    font-weight:600;
+    color:var(--brand);
+    text-decoration:none;
+  }
+  .card-cta:hover{text-decoration:underline}
+
+  /* ---------- 案例 ---------- */
+  .case-head{
+    margin:0 0 16px;
+    padding-bottom:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .case-head h3{margin:0 0 6px}
+  .case-type{font-size:14px;color:var(--muted);font-weight:500}
+  .quote{
+    margin:0;
+    padding:14px 16px;
+    background:var(--bg);
+    border-left:3px solid var(--brand);
+    border-radius:0 10px 10px 0;
+    color:#3a4a5a;
+    font-size:14.5px;
+  }
+
+  /* ---------- 关于 ---------- */
+  .about{
+    display:grid;
+    grid-template-columns:1.35fr .95fr;
+    gap:44px;
+    align-items:start;
+  }
+  .about p{max-width:44em;color:#3a4a5a}
+  .stats{
+    display:grid;
+    gap:16px;
+  }
+  .stat{
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .stat strong{
+    display:block;
+    font-size:28px;
+    font-weight:800;
+    color:var(--brand);
+    letter-spacing:-.02em;
+    line-height:1.2;
+  }
+  .stat span{font-size:14px;color:var(--muted)}
+
+  /* ---------- 联系方式 ---------- */
+  .contact-card{
+    gap:6px;
+    text-decoration:none;
+    transition:border-color .15s ease;
+  }
+  .contact-card:hover{border-color:#c6d6e7}
+  .contact-label{
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.1em;
+    color:var(--accent);
+  }
+  .contact-card strong{
+    font-size:19px;
+    font-weight:700;
+    color:var(--brand-dark);
+    word-break:break-all;
+  }
+  .contact-card .hint{font-size:14px;color:var(--muted)}
+  .contact-note{
+    margin:24px 0 0;
+    padding:18px 20px;
+    background:var(--brand-soft);
+    border-radius:var(--radius);
+    color:#33506e;
+    font-size:14.5px;
+  }
+
+  /* ---------- 页脚 ---------- */
+  .site-footer{
+    padding:34px 0 44px;
+    border-top:1px solid var(--line);
+    background:var(--surface);
+    font-size:14px;
+    color:var(--muted);
+  }
+  .site-footer .wrap{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:8px 24px;
+  }
+  .site-footer p{margin:0}
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width:860px){
+    .hero{padding:60px 0 56px}
+    .section{padding:60px 0}
+    .about{grid-template-columns:1fr;gap:32px}
+    .hero .wrap{grid-template-columns:1fr;gap:34px}
+  }
+
+  @media (max-width:720px){
+    .nav-links{display:none}
+  }
+
+  @media (max-width:560px){
+    .hero h1{max-width:none}
+    .hero-actions{gap:10px}
+    .hero-actions .btn{flex:1 1 0;padding:13px 10px}
+    .spec{grid-template-columns:48px 1fr;font-size:14px}
+    .card{padding:22px}
+    .site-footer .wrap{flex-direction:column}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none !important}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#services">跳到主要内容</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="mark">A</span>
+      <span>阿欣 · AI 赋能顾问</span>
+    </a>
+    <nav class="nav" aria-label="页面导航">
+      <div class="nav-links">
+        <a href="#services">服务</a>
+        <a href="#cases">案例</a>
+        <a href="#about">关于</a>
+        <a href="#contact">联系</a>
+      </div>
+      <a class="btn btn-primary btn-sm" href="#contact">联系我</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- 首屏 -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero-copy">
+      <p class="eyebrow">阿欣 · AI 赋能顾问</p>
+      <h1>帮你把 AI 变成日常工作和内容生产的实际生产力</h1>
+      <p class="lead">帮一人公司和职场人用 AI 提升内容与工作效率。不堆工具清单，只解决你手上真实、重复、耗时的活，并沉淀成能长期复用的流程。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#services">查看服务</a>
+        <a class="btn btn-ghost" href="#contact">联系我</a>
+      </div>
+      <ul class="tags">
+        <li>一人公司主理人</li>
+        <li>独立顾问</li>
+        <li>内容运营</li>
+        <li>职场提效</li>
+      </ul>
+      <p class="hero-note">5 年内容与运营经验 · 已陪跑 30+ 一人公司和职场人</p>
+      </div>
+      <figure class="hero-photo">
+        <img src="profile.png" alt="阿欣，AI 赋能顾问" width="773" height="763">
+      </figure>
+    </div>
+  </section>
+
+  <!-- AI 服务 / 课程 -->
+  <section class="section section-white" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">AI 服务 / 课程</p>
+        <h2>三条路径，按你现在的卡点选</h2>
+        <p class="section-sub">内容产出不成体系、重复工作太多、工具学完就忘——对应下面三种服务，交付物和使用周期都写清楚了。</p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card">
+          <h3>AI 内容工作流搭建</h3>
+          <p class="service-meta">
+            <span class="price">¥1999</span>
+            <span class="chip">周期 7 天</span>
+          </p>
+          <dl class="spec">
+            <dt>适合</dt>
+            <dd>一人公司主理人、独立顾问、内容运营</dd>
+            <dt>解决</dt>
+            <dd>选题靠灵感、产出不稳定、AI 用了但不成体系</dd>
+            <dt>交付</dt>
+            <dd>1 次诊断 + 1 套内容工作流 SOP + 3 个提示词模板 + 60 分钟答疑</dd>
+            <dt>结果</dt>
+            <dd><strong>从每周 2 篇到 6 篇，单篇初稿 90 分钟降到 25 分钟</strong></dd>
+          </dl>
+          <a class="card-cta" href="#contact">咨询这项服务 →</a>
+        </article>
+
+        <article class="card">
+          <h3>一人公司 AI 提效咨询</h3>
+          <p class="service-meta">
+            <span class="price">¥2999</span>
+            <span class="chip">周期 14 天</span>
+          </p>
+          <dl class="spec">
+            <dt>适合</dt>
+            <dd>一人公司、自由职业者、小团队负责人</dd>
+            <dt>解决</dt>
+            <dd>客服、报价、合同、资料整理等重复工作耗时</dd>
+            <dt>交付</dt>
+            <dd>1 次 90 分钟诊断 + 1 份 AI 提效地图 + 1 个优先场景落地方案 + 7 天答疑</dd>
+            <dt>结果</dt>
+            <dd><strong>客服重复问题减少 60%，响应从 4 小时到 10 分钟</strong></dd>
+          </dl>
+          <a class="card-cta" href="#contact">咨询这项服务 →</a>
+        </article>
+
+        <article class="card">
+          <h3>AI 工具入门陪跑</h3>
+          <p class="service-meta">
+            <span class="price">¥999</span>
+            <span class="chip">周期 4 周</span>
+          </p>
+          <dl class="spec">
+            <dt>适合</dt>
+            <dd>职场人、想用 AI 但不知从何下手的人</dd>
+            <dt>解决</dt>
+            <dd>工具太多、学完就忘、不知道用在哪里</dd>
+            <dt>交付</dt>
+            <dd>4 周陪跑 + 每周 1 次 60 分钟会议 + 每周任务 + 工具模板 + 群答疑</dd>
+            <dt>结果</dt>
+            <dd><strong>能独立用 AI 完成周报、会议纪要、PPT 大纲、资料总结</strong></dd>
+          </dl>
+          <a class="card-cta" href="#contact">咨询这项服务 →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 案例 -->
+  <section class="section" id="cases">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">案例</p>
+        <h2>他们原本卡在哪，后来变成什么样</h2>
+        <p class="section-sub">每一个案例都是同一个逻辑：先找出最耗时的那一步，再用 AI 把它变成一条固定流程。</p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card">
+          <div class="case-head">
+            <h3>小满咨询</h3>
+            <p class="case-type">独立职业规划顾问</p>
+          </div>
+          <dl class="spec">
+            <dt>问题</dt>
+            <dd>每周只能写 2 篇内容，线索不稳定</dd>
+            <dt>做法</dt>
+            <dd>搭建 AI 内容工作流，选题、初稿、改写、配图提示词一条线</dd>
+            <dt>结果</dt>
+            <dd><strong>每周 6 篇，2 个月线索从每月 8 条到 21 条</strong></dd>
+          </dl>
+          <blockquote class="quote">“以前是追着灵感跑，现在是按流程出内容。”</blockquote>
+        </article>
+
+        <article class="card">
+          <div class="case-head">
+            <h3>林记设计工作室</h3>
+            <p class="case-type">一人公司</p>
+          </div>
+          <dl class="spec">
+            <dt>问题</dt>
+            <dd>重复咨询多，响应慢，主理人经常被打断</dd>
+            <dt>做法</dt>
+            <dd>搭建 AI 客服问答库，常见问题自动回复</dd>
+            <dt>结果</dt>
+            <dd><strong>重复问题减少 60%，响应从 4 小时到 10 分钟，每月省 12 小时</strong></dd>
+          </dl>
+          <blockquote class="quote">“不用每次重新打字解释同样的问题了。”</blockquote>
+        </article>
+
+        <article class="card">
+          <div class="case-head">
+            <h3>小林</h3>
+            <p class="case-type">市场专员</p>
+          </div>
+          <dl class="spec">
+            <dt>问题</dt>
+            <dd>简历和面试准备没方向，投了很多没回音</dd>
+            <dt>做法</dt>
+            <dd>参加 AI 工具入门陪跑，用 AI 梳理经历、优化简历、模拟面试</dd>
+            <dt>结果</dt>
+            <dd><strong>2 周拿到 2 个面试，最终获得 1 个 offer</strong></dd>
+          </dl>
+          <blockquote class="quote">“不是学工具，是终于知道怎么用在自己的事上。”</blockquote>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关于 -->
+  <section class="section section-white" id="about">
+    <div class="wrap about">
+      <div>
+        <p class="kicker">关于</p>
+        <h2>把 AI 用在真实的活上</h2>
+        <p>5 年内容与运营经验，专注 AI 在真实工作场景中的落地。</p>
+        <p>我不做工具测评，也不讲原理。我更关心的是：你每天重复的那几件事，能不能交出去、交得稳，并且沉淀成一份下次还能直接用的流程。</p>
+        <p>已陪跑 30+ 一人公司和职场人，覆盖内容产出、客服问答、资料整理、简历与面试准备等具体场景。</p>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <strong>5 年</strong>
+          <span>内容与运营经验</span>
+        </div>
+        <div class="stat">
+          <strong>30+</strong>
+          <span>已陪跑的一人公司和职场人</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系方式 -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">联系方式</p>
+        <h2>聊聊你手上最想交给 AI 的那件事</h2>
+        <p class="section-sub">不管是内容产出、重复咨询还是资料整理，先说清现状，我会告诉你从哪一步开始最省力。</p>
+      </div>
+
+      <div class="grid grid-2">
+        <a class="card contact-card" href="mailto:ABCDEFG@163.com">
+          <span class="contact-label">邮箱</span>
+          <strong>ABCDEFG@163.com</strong>
+          <span class="hint">点击即可直接写邮件</span>
+        </a>
+        <div class="card contact-card">
+          <span class="contact-label">微信</span>
+          <strong>ABCDEF</strong>
+          <span class="hint">添加时备注「AI 咨询」，我会优先通过</span>
+        </div>
+      </div>
+
+      <p class="contact-note">为了第一次沟通就能直接进入方案，来信可以简单写上三点：你的身份（一人公司 / 职场人）、目前最耗时的 1–2 件事、希望达成的结果。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 阿欣 · AI 赋能顾问</p>
+    <p>本页为演示页面，价格、案例数据与联系方式均为虚构示例。</p>
+  </div>
+</footer>
+</body>
+</html>
