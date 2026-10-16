@@ -1,0 +1,7 @@
+# 这些文件/文件夹不需要上传到线上，只属于开发环境
+.git
+.git/**
+node_modules
+**/node_modules
+.DS_Store
+**/.DS_Store

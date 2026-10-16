@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers 配置：这是一个"只有静态资源、没有后端代码"的 Worker
+  // name 是部署到 Cloudflare 后的项目名
+  "name": "axin",
+  // 兼容日期，保持部署时使用的运行时版本稳定
+  "compatibility_date": "2026-10-16",
+  "assets": {
+    // 静态资源目录：网站文件就在仓库根目录，所以填 "."
+    "directory": "."
+  }
+}
