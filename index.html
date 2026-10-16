@@ -11,18 +11,31 @@
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a3a5c'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='19' fill='%23ffffff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 <style>
+  /* ============================================================
+     设计旋钮（依据 taste-skill / High-Agency Frontend）
+       DESIGN_VARIANCE  : 6  非对称、错位、去居中化
+       MOTION_INTENSITY : 2  仅 hover / active 状态，无入场动画
+       VISUAL_DENSITY   : 3  美术馆模式，充足留白
+     单一强调色 #1a3a5c + 中性冷灰阶梯；阴影只在需要表达层级时出现
+     ============================================================ */
   :root{
     --brand:#1a3a5c;
     --brand-dark:#12293f;
-    --brand-soft:#eaf1f8;
-    --accent:#2f6f9f;
-    --text:#1b2430;
-    --muted:#5c6b7a;
-    --bg:#f7f9fc;
+    --brand-soft:#eef3f8;
+
+    --ink:#111c26;
+    --ink-2:#33414f;
+    --muted:#6b7c8c;
+    --line:#e6ebf0;
+    --line-strong:#d5dee7;
+
+    --bg:#f8fafc;
     --surface:#ffffff;
-    --line:#e3e9f0;
-    --radius:14px;
-    --shadow:0 1px 2px rgba(16,42,67,.04), 0 8px 24px rgba(16,42,67,.06);
+
+    --r-md:12px;
+    --r-lg:20px;
+
+    --lift:0 18px 40px -18px rgba(26,58,92,.18);
   }
 
   *,*::before,*::after{box-sizing:border-box}
@@ -35,26 +48,26 @@
   body{
     margin:0;
     background:var(--bg);
-    color:var(--text);
+    color:var(--ink-2);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
     font-size:16px;
-    line-height:1.7;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
   }
 
-  h1,h2,h3{color:var(--brand-dark);font-weight:800;letter-spacing:-.01em}
+  h1,h2,h3{margin:0;color:var(--ink);font-weight:700;letter-spacing:-.02em;line-height:1.28}
   p{margin:0 0 12px}
   a{color:var(--brand);text-decoration:none}
-  a:hover{text-decoration:underline}
   ul{margin:0;padding:0;list-style:none}
   figure{margin:0}
 
-  [id]{scroll-margin-top:80px}
+  [id]{scroll-margin-top:88px}
 
   .wrap{
     width:100%;
     max-width:1080px;
     margin:0 auto;
-    padding:0 20px;
+    padding:0 24px;
   }
 
   .skip-link{
@@ -70,14 +83,14 @@
   }
   .skip-link:focus{left:0}
 
-  /* ---------- 顶部导航 ---------- */
+  /* ---------- 顶栏 ---------- */
   .site-header{
     position:sticky;
     top:0;
     z-index:20;
-    background:rgba(255,255,255,.9);
-    -webkit-backdrop-filter:saturate(180%) blur(10px);
-    backdrop-filter:saturate(180%) blur(10px);
+    background:rgba(255,255,255,.92);
+    -webkit-backdrop-filter:saturate(180%) blur(12px);
+    backdrop-filter:saturate(180%) blur(12px);
     border-bottom:1px solid var(--line);
   }
   .site-header .wrap{
@@ -92,38 +105,28 @@
     align-items:center;
     gap:10px;
     font-size:15px;
-    font-weight:700;
-    color:var(--brand-dark);
+    font-weight:600;
+    letter-spacing:-.01em;
+    color:var(--ink);
     text-decoration:none;
     white-space:nowrap;
   }
-  .brand:hover{text-decoration:none}
   .brand .mark{
-    width:28px;
-    height:28px;
-    border-radius:8px;
-    background:var(--brand);
-    color:#fff;
     display:grid;
     place-items:center;
-    font-size:13px;
+    width:26px;
+    height:26px;
+    border-radius:7px;
+    background:var(--brand);
+    color:#fff;
+    font-size:12.5px;
     font-weight:700;
     flex:none;
   }
-  .nav{
-    display:flex;
-    align-items:center;
-    gap:24px;
-    font-size:15px;
-  }
-  .nav-links{
-    display:flex;
-    align-items:center;
-    gap:22px;
-    font-size:15px;
-  }
+  .nav{display:flex;align-items:center;gap:26px}
+  .nav-links{display:flex;align-items:center;gap:24px;font-size:14.5px}
   .nav-links a{color:var(--muted);text-decoration:none}
-  .nav-links a:hover{color:var(--brand);text-decoration:none}
+  .nav-links a:hover{color:var(--ink)}
 
   /* ---------- 按钮 ---------- */
   .btn{
@@ -131,106 +134,96 @@
     align-items:center;
     justify-content:center;
     gap:8px;
-    padding:13px 26px;
-    border-radius:10px;
+    padding:12px 24px;
     border:1px solid transparent;
-    font-size:16px;
+    border-radius:10px;
+    font-size:15.5px;
     font-weight:600;
     line-height:1.2;
     text-decoration:none;
-    transition:background-color .15s ease,border-color .15s ease,color .15s ease;
+    transition:background-color .18s ease,border-color .18s ease,color .18s ease;
   }
   .btn:hover{text-decoration:none}
+  .btn:active{transform:translateY(1px)}
   .btn-primary{background:var(--brand);color:#fff}
   .btn-primary:hover{background:var(--brand-dark);color:#fff}
-  .btn-ghost{background:#fff;color:var(--brand);border-color:#cfdceb}
-  .btn-ghost:hover{border-color:var(--brand)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--brand);color:var(--brand)}
   .btn-sm{padding:9px 18px;font-size:14px}
 
   /* ---------- 首屏 ---------- */
   .hero{
-    padding:80px 0 72px;
-    background:linear-gradient(180deg,#f1f6fb 0%,var(--bg) 100%);
+    padding:88px 0 80px;
+    background:linear-gradient(180deg,#f1f5f9 0%,var(--bg) 100%);
     border-bottom:1px solid var(--line);
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:64px;
+    align-items:center;
   }
   .eyebrow{
     display:inline-flex;
     align-items:center;
-    gap:8px;
-    margin:0 0 22px;
-    padding:6px 14px;
-    border-radius:999px;
-    background:var(--brand-soft);
-    color:var(--brand);
-    font-size:14px;
+    gap:10px;
+    margin:0 0 26px;
+    font-size:12.5px;
     font-weight:600;
+    letter-spacing:.14em;
+    color:var(--muted);
   }
   .eyebrow::before{
     content:"";
-    width:7px;
-    height:7px;
+    width:6px;
+    height:6px;
     border-radius:50%;
-    background:var(--accent);
+    background:var(--brand);
     flex:none;
   }
   .hero h1{
-    margin:0 0 18px;
-    max-width:16em;
-    font-size:clamp(28px,5.2vw,44px);
-    line-height:1.28;
+    margin:0 0 20px;
+    max-width:14em;
+    font-size:clamp(26px,4.2vw,38px);
+    letter-spacing:-.025em;
   }
   .hero .lead{
     margin:0;
     max-width:34em;
-    font-size:clamp(16px,2.1vw,18px);
+    font-size:clamp(15.5px,1.9vw,17px);
     color:var(--muted);
   }
-  .hero-actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:14px;
-    margin:32px 0 0;
-  }
-  .tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin:30px 0 0;
-  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin:34px 0 0}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0 0}
   .tags li{
-    padding:6px 14px;
+    padding:5px 13px;
     border:1px solid var(--line);
     border-radius:999px;
-    background:#fff;
-    font-size:14px;
-    color:#455565;
-  }
-  .hero-note{
-    margin:22px 0 0;
-    font-size:14px;
+    font-size:13.5px;
     color:var(--muted);
   }
-
-  .hero .wrap{
-    display:grid;
-    grid-template-columns:1.12fr .88fr;
-    gap:56px;
-    align-items:center;
+  .hero-note{
+    margin:28px 0 0;
+    padding-top:18px;
+    max-width:30em;
+    border-top:1px solid var(--line);
+    font-size:13.5px;
+    color:var(--muted);
   }
   .hero-photo{
     position:relative;
     overflow:hidden;
     border:1px solid var(--line);
-    border-radius:18px;
-    background:linear-gradient(180deg,#eaf1f8 0%,#dde8f3 100%);
-    box-shadow:0 1px 2px rgba(16,42,67,.04), 0 14px 34px rgba(16,42,67,.10);
+    border-radius:var(--r-lg);
+    background:linear-gradient(180deg,var(--brand-soft) 0%,#e3ebf3 100%);
+    box-shadow:var(--lift);
     aspect-ratio:1 / 1;
   }
   .hero-photo::before{
     content:"";
     position:absolute;
     inset:0;
-    background:radial-gradient(circle at 50% 36%, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 62%);
+    background:radial-gradient(circle at 50% 34%, rgba(255,255,255,.92) 0%, rgba(255,255,255,0) 64%);
   }
   .hero-photo img{
     position:relative;
@@ -241,181 +234,190 @@
     object-fit:cover;
     object-position:center top;
   }
-  /* ---------- 通用区块 ---------- */
-  .section{padding:76px 0}
+
+  /* ---------- 区块 ---------- */
+  .section{padding:84px 0}
   .section-white{background:var(--surface)}
-  .section-head{
-    max-width:660px;
-    margin:0 0 36px;
-  }
+  .section-head{max-width:620px;margin:0 0 44px}
   .kicker{
-    margin:0 0 10px;
-    font-size:13px;
+    margin:0 0 16px;
+    font-size:12px;
     font-weight:700;
-    letter-spacing:.14em;
-    color:var(--accent);
+    letter-spacing:.16em;
+    color:var(--muted);
   }
-  .section h2{
-    margin:0 0 12px;
-    font-size:clamp(22px,3.2vw,30px);
-    line-height:1.35;
+  .kicker::before{
+    content:"";
+    display:inline-block;
+    width:18px;
+    height:2px;
+    margin-right:10px;
+    background:var(--brand);
+    vertical-align:middle;
   }
-  .section-sub{margin:0;color:var(--muted)}
+  .section h2{margin:0 0 14px;font-size:clamp(21px,2.9vw,28px)}
+  .section-sub{margin:0;max-width:60ch;color:var(--muted)}
 
-  /* ---------- 卡片与网格 ---------- */
-  .grid{display:grid;gap:20px}
-  .grid-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-  .grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-
-  .card{
+  /* ---------- 服务：编号条目，不用卡片盒 ---------- */
+  .service-list{border-top:1px solid var(--line-strong)}
+  .service{
+    display:grid;
+    grid-template-columns:52px minmax(0,1fr) 194px;
+    gap:32px;
+    padding:36px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .service-index{
+    padding-top:5px;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.1em;
+    color:var(--muted);
+    font-variant-numeric:tabular-nums;
+  }
+  .service h3{margin:0 0 18px;font-size:19px}
+  .service-side{
     display:flex;
     flex-direction:column;
-    padding:26px;
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
+    align-items:flex-start;
+    gap:12px;
+    padding-top:3px;
   }
-
-  .card h3{
-    margin:0 0 14px;
-    font-size:19px;
-    line-height:1.4;
+  .price{
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:-.02em;
+    color:var(--brand);
+    font-variant-numeric:tabular-nums;
   }
+  .chip{
+    padding:3px 11px;
+    border:1px solid var(--line-strong);
+    border-radius:999px;
+    font-size:12.5px;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  .card-cta{margin-top:auto;font-size:14.5px;font-weight:600;color:var(--brand)}
+  .card-cta:hover{text-decoration:underline}
 
   .spec{
     display:grid;
-    grid-template-columns:56px 1fr;
-    gap:10px 14px;
-    margin:0 0 20px;
+    grid-template-columns:56px minmax(0,1fr);
+    gap:9px 16px;
+    margin:0;
     font-size:14.5px;
   }
-  .spec dt{
-    color:var(--muted);
-    font-weight:600;
-  }
-  .spec dd{
-    margin:0;
-    color:#3a4a5a;
-  }
-  .spec dd strong{color:var(--brand);font-weight:600}
+  .spec dt{color:var(--muted)}
+  .spec dd{margin:0;max-width:62ch;color:var(--ink-2)}
+  .spec dd strong{font-weight:600;color:var(--ink)}
 
-  .service-meta{
+  /* ---------- 案例：非对称两列 + 细线分隔 ---------- */
+  .case-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    border-top:1px solid var(--line-strong);
+  }
+  .case{
+    padding:36px 36px 36px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .case:nth-child(2){
+    padding:36px 0 36px 36px;
+    border-left:1px solid var(--line);
+  }
+  .case:nth-child(1),
+  .case:nth-child(2){
     display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    gap:12px;
-    margin:0 0 20px;
-    padding-bottom:18px;
-    border-bottom:1px solid var(--line);
+    flex-direction:column;
   }
-  .price{
-    font-size:24px;
-    font-weight:800;
-    color:var(--brand-dark);
-    letter-spacing:-.02em;
-  }
-  .chip{
-    padding:4px 12px;
-    border-radius:999px;
-    background:var(--brand-soft);
-    color:var(--brand);
-    font-size:13px;
-    font-weight:600;
-    white-space:nowrap;
-  }
-  .card-cta{
+  .case:nth-child(1) .quote,
+  .case:nth-child(2) .quote{
     margin-top:auto;
-    padding-top:4px;
-    font-size:15px;
-    font-weight:600;
-    color:var(--brand);
-    text-decoration:none;
   }
-  .card-cta:hover{text-decoration:underline}
-
-  /* ---------- 案例 ---------- */
-  .case-head{
-    margin:0 0 16px;
-    padding-bottom:16px;
-    border-bottom:1px solid var(--line);
+  .case:nth-child(3){
+    grid-column:1 / -1;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,.72fr);
+    gap:48px;
+    padding:36px 0;
+    border-left:0;
+    align-items:start;
   }
-  .case-head h3{margin:0 0 6px}
-  .case-type{font-size:14px;color:var(--muted);font-weight:500}
+  .case h3{margin:0 0 6px;font-size:18px}
+  .case-type{margin:0 0 22px;font-size:13.5px;color:var(--muted)}
   .quote{
-    margin:0;
-    padding:14px 16px;
-    background:var(--bg);
-    border-left:3px solid var(--brand);
-    border-radius:0 10px 10px 0;
-    color:#3a4a5a;
+    margin:24px 0 0;
+    padding:0 0 0 18px;
+    border-left:2px solid var(--brand);
     font-size:14.5px;
+    color:var(--ink-2);
   }
 
   /* ---------- 关于 ---------- */
   .about{
     display:grid;
-    grid-template-columns:1.35fr .95fr;
-    gap:44px;
+    grid-template-columns:1.25fr .75fr;
+    gap:64px;
     align-items:start;
   }
-  .about p{max-width:44em;color:#3a4a5a}
-  .stats{
-    display:grid;
-    gap:16px;
-  }
-  .stat{
-    padding:22px 24px;
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-  }
+  .about > div:first-child p{max-width:56ch;color:var(--ink-2)}
+  .stats{border-top:1px solid var(--line-strong)}
+  .stat{padding:24px 0;border-bottom:1px solid var(--line)}
   .stat strong{
     display:block;
-    font-size:28px;
-    font-weight:800;
+    font-size:34px;
+    font-weight:700;
+    line-height:1.1;
+    letter-spacing:-.03em;
     color:var(--brand);
-    letter-spacing:-.02em;
-    line-height:1.2;
+    font-variant-numeric:tabular-nums;
   }
-  .stat span{font-size:14px;color:var(--muted)}
+  .stat span{font-size:13.5px;color:var(--muted)}
 
   /* ---------- 联系方式 ---------- */
+  .contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
   .contact-card{
+    display:flex;
+    flex-direction:column;
     gap:6px;
+    padding:26px 28px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--r-md);
+    background:var(--surface);
     text-decoration:none;
-    transition:border-color .15s ease;
+    transition:border-color .18s ease;
   }
-  .contact-card:hover{border-color:#c6d6e7}
+  .contact-card:hover{border-color:var(--brand)}
   .contact-label{
-    font-size:13px;
+    font-size:12px;
     font-weight:700;
-    letter-spacing:.1em;
-    color:var(--accent);
+    letter-spacing:.14em;
+    color:var(--muted);
   }
   .contact-card strong{
     font-size:19px;
-    font-weight:700;
-    color:var(--brand-dark);
+    font-weight:600;
+    letter-spacing:-.01em;
+    color:var(--ink);
     word-break:break-all;
   }
-  .contact-card .hint{font-size:14px;color:var(--muted)}
+  .contact-card .hint{font-size:13.5px;color:var(--muted)}
   .contact-note{
-    margin:24px 0 0;
-    padding:18px 20px;
-    background:var(--brand-soft);
-    border-radius:var(--radius);
-    color:#33506e;
-    font-size:14.5px;
+    margin:28px 0 0;
+    padding-top:20px;
+    max-width:70ch;
+    border-top:1px solid var(--line);
+    font-size:14px;
+    color:var(--muted);
   }
 
   /* ---------- 页脚 ---------- */
   .site-footer{
-    padding:34px 0 44px;
+    padding:32px 0 44px;
     border-top:1px solid var(--line);
     background:var(--surface);
-    font-size:14px;
+    font-size:13.5px;
     color:var(--muted);
   }
   .site-footer .wrap{
@@ -427,11 +429,23 @@
   .site-footer p{margin:0}
 
   /* ---------- 响应式 ---------- */
-  @media (max-width:860px){
-    .hero{padding:60px 0 56px}
-    .section{padding:60px 0}
-    .about{grid-template-columns:1fr;gap:32px}
-    .hero .wrap{grid-template-columns:1fr;gap:34px}
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr;gap:40px}
+    .about{grid-template-columns:1fr;gap:36px}
+    .case-grid{grid-template-columns:1fr}
+    .case{padding:32px 0}
+    .case:nth-child(2){padding:32px 0;border-left:0}
+    .case:nth-child(3){grid-template-columns:1fr;gap:0;padding:32px 0}
+  }
+
+  @media (max-width:760px){
+    .hero{padding:64px 0 60px}
+    .section{padding:64px 0}
+    .service{grid-template-columns:minmax(0,1fr);gap:16px;padding:30px 0}
+    .service-index{display:none}
+    .service-side{flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px}
+    .card-cta{margin:0}
+    .contact-grid{grid-template-columns:1fr}
   }
 
   @media (max-width:720px){
@@ -439,19 +453,16 @@
   }
 
   @media (max-width:560px){
-    .hero h1{max-width:none}
     .hero-actions{gap:10px}
-    .hero-actions .btn{flex:1 1 0;padding:13px 10px}
-    .spec{grid-template-columns:48px 1fr;font-size:14px}
-    .card{padding:22px}
+    .hero-actions .btn{flex:1 1 0;padding:12px 10px}
+    .spec{grid-template-columns:48px minmax(0,1fr);font-size:14px}
     .site-footer .wrap{flex-direction:column}
   }
 
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *{transition:none !important}
-  }
-</style>
+  }</style>
 </head>
 <body>
 <a class="skip-link" href="#services">跳到主要内容</a>
@@ -509,62 +520,71 @@
         <p class="section-sub">内容产出不成体系、重复工作太多、工具学完就忘——对应下面三种服务，交付物和使用周期都写清楚了。</p>
       </div>
 
-      <div class="grid grid-3">
-        <article class="card">
-          <h3>AI 内容工作流搭建</h3>
-          <p class="service-meta">
+      <div class="service-list">
+        <article class="service">
+          <p class="service-index">01</p>
+          <div class="service-main">
+            <h3>AI 内容工作流搭建</h3>
+            <dl class="spec">
+              <dt>适合</dt>
+              <dd>一人公司主理人、独立顾问、内容运营</dd>
+              <dt>解决</dt>
+              <dd>选题靠灵感、产出不稳定、AI 用了但不成体系</dd>
+              <dt>交付</dt>
+              <dd>1 次诊断 + 1 套内容工作流 SOP + 3 个提示词模板 + 60 分钟答疑</dd>
+              <dt>结果</dt>
+              <dd><strong>从每周 2 篇到 6 篇，单篇初稿 90 分钟降到 25 分钟</strong></dd>
+            </dl>
+          </div>
+          <aside class="service-side">
             <span class="price">¥1999</span>
             <span class="chip">周期 7 天</span>
-          </p>
-          <dl class="spec">
-            <dt>适合</dt>
-            <dd>一人公司主理人、独立顾问、内容运营</dd>
-            <dt>解决</dt>
-            <dd>选题靠灵感、产出不稳定、AI 用了但不成体系</dd>
-            <dt>交付</dt>
-            <dd>1 次诊断 + 1 套内容工作流 SOP + 3 个提示词模板 + 60 分钟答疑</dd>
-            <dt>结果</dt>
-            <dd><strong>从每周 2 篇到 6 篇，单篇初稿 90 分钟降到 25 分钟</strong></dd>
-          </dl>
-          <a class="card-cta" href="#contact">咨询这项服务 →</a>
+            <a class="card-cta" href="#contact">咨询这项服务 →</a>
+          </aside>
         </article>
 
-        <article class="card">
-          <h3>一人公司 AI 提效咨询</h3>
-          <p class="service-meta">
+        <article class="service">
+          <p class="service-index">02</p>
+          <div class="service-main">
+            <h3>一人公司 AI 提效咨询</h3>
+            <dl class="spec">
+              <dt>适合</dt>
+              <dd>一人公司、自由职业者、小团队负责人</dd>
+              <dt>解决</dt>
+              <dd>客服、报价、合同、资料整理等重复工作耗时</dd>
+              <dt>交付</dt>
+              <dd>1 次 90 分钟诊断 + 1 份 AI 提效地图 + 1 个优先场景落地方案 + 7 天答疑</dd>
+              <dt>结果</dt>
+              <dd><strong>客服重复问题减少 60%，响应从 4 小时到 10 分钟</strong></dd>
+            </dl>
+          </div>
+          <aside class="service-side">
             <span class="price">¥2999</span>
             <span class="chip">周期 14 天</span>
-          </p>
-          <dl class="spec">
-            <dt>适合</dt>
-            <dd>一人公司、自由职业者、小团队负责人</dd>
-            <dt>解决</dt>
-            <dd>客服、报价、合同、资料整理等重复工作耗时</dd>
-            <dt>交付</dt>
-            <dd>1 次 90 分钟诊断 + 1 份 AI 提效地图 + 1 个优先场景落地方案 + 7 天答疑</dd>
-            <dt>结果</dt>
-            <dd><strong>客服重复问题减少 60%，响应从 4 小时到 10 分钟</strong></dd>
-          </dl>
-          <a class="card-cta" href="#contact">咨询这项服务 →</a>
+            <a class="card-cta" href="#contact">咨询这项服务 →</a>
+          </aside>
         </article>
 
-        <article class="card">
-          <h3>AI 工具入门陪跑</h3>
-          <p class="service-meta">
+        <article class="service">
+          <p class="service-index">03</p>
+          <div class="service-main">
+            <h3>AI 工具入门陪跑</h3>
+            <dl class="spec">
+              <dt>适合</dt>
+              <dd>职场人、想用 AI 但不知从何下手的人</dd>
+              <dt>解决</dt>
+              <dd>工具太多、学完就忘、不知道用在哪里</dd>
+              <dt>交付</dt>
+              <dd>4 周陪跑 + 每周 1 次 60 分钟会议 + 每周任务 + 工具模板 + 群答疑</dd>
+              <dt>结果</dt>
+              <dd><strong>能独立用 AI 完成周报、会议纪要、PPT 大纲、资料总结</strong></dd>
+            </dl>
+          </div>
+          <aside class="service-side">
             <span class="price">¥999</span>
             <span class="chip">周期 4 周</span>
-          </p>
-          <dl class="spec">
-            <dt>适合</dt>
-            <dd>职场人、想用 AI 但不知从何下手的人</dd>
-            <dt>解决</dt>
-            <dd>工具太多、学完就忘、不知道用在哪里</dd>
-            <dt>交付</dt>
-            <dd>4 周陪跑 + 每周 1 次 60 分钟会议 + 每周任务 + 工具模板 + 群答疑</dd>
-            <dt>结果</dt>
-            <dd><strong>能独立用 AI 完成周报、会议纪要、PPT 大纲、资料总结</strong></dd>
-          </dl>
-          <a class="card-cta" href="#contact">咨询这项服务 →</a>
+            <a class="card-cta" href="#contact">咨询这项服务 →</a>
+          </aside>
         </article>
       </div>
     </div>
@@ -579,52 +599,52 @@
         <p class="section-sub">每一个案例都是同一个逻辑：先找出最耗时的那一步，再用 AI 把它变成一条固定流程。</p>
       </div>
 
-      <div class="grid grid-3">
-        <article class="card">
-          <div class="case-head">
+      <div class="case-grid">
+        <article class="case">
+          <div class="case-main">
             <h3>小满咨询</h3>
             <p class="case-type">独立职业规划顾问</p>
+            <dl class="spec">
+              <dt>问题</dt>
+              <dd>每周只能写 2 篇内容，线索不稳定</dd>
+              <dt>做法</dt>
+              <dd>搭建 AI 内容工作流，选题、初稿、改写、配图提示词一条线</dd>
+              <dt>结果</dt>
+              <dd><strong>每周 6 篇，2 个月线索从每月 8 条到 21 条</strong></dd>
+            </dl>
           </div>
-          <dl class="spec">
-            <dt>问题</dt>
-            <dd>每周只能写 2 篇内容，线索不稳定</dd>
-            <dt>做法</dt>
-            <dd>搭建 AI 内容工作流，选题、初稿、改写、配图提示词一条线</dd>
-            <dt>结果</dt>
-            <dd><strong>每周 6 篇，2 个月线索从每月 8 条到 21 条</strong></dd>
-          </dl>
           <blockquote class="quote">“以前是追着灵感跑，现在是按流程出内容。”</blockquote>
         </article>
 
-        <article class="card">
-          <div class="case-head">
+        <article class="case">
+          <div class="case-main">
             <h3>林记设计工作室</h3>
             <p class="case-type">一人公司</p>
+            <dl class="spec">
+              <dt>问题</dt>
+              <dd>重复咨询多，响应慢，主理人经常被打断</dd>
+              <dt>做法</dt>
+              <dd>搭建 AI 客服问答库，常见问题自动回复</dd>
+              <dt>结果</dt>
+              <dd><strong>重复问题减少 60%，响应从 4 小时到 10 分钟，每月省 12 小时</strong></dd>
+            </dl>
           </div>
-          <dl class="spec">
-            <dt>问题</dt>
-            <dd>重复咨询多，响应慢，主理人经常被打断</dd>
-            <dt>做法</dt>
-            <dd>搭建 AI 客服问答库，常见问题自动回复</dd>
-            <dt>结果</dt>
-            <dd><strong>重复问题减少 60%，响应从 4 小时到 10 分钟，每月省 12 小时</strong></dd>
-          </dl>
           <blockquote class="quote">“不用每次重新打字解释同样的问题了。”</blockquote>
         </article>
 
-        <article class="card">
-          <div class="case-head">
+        <article class="case">
+          <div class="case-main">
             <h3>小林</h3>
             <p class="case-type">市场专员</p>
+            <dl class="spec">
+              <dt>问题</dt>
+              <dd>简历和面试准备没方向，投了很多没回音</dd>
+              <dt>做法</dt>
+              <dd>参加 AI 工具入门陪跑，用 AI 梳理经历、优化简历、模拟面试</dd>
+              <dt>结果</dt>
+              <dd><strong>2 周拿到 2 个面试，最终获得 1 个 offer</strong></dd>
+            </dl>
           </div>
-          <dl class="spec">
-            <dt>问题</dt>
-            <dd>简历和面试准备没方向，投了很多没回音</dd>
-            <dt>做法</dt>
-            <dd>参加 AI 工具入门陪跑，用 AI 梳理经历、优化简历、模拟面试</dd>
-            <dt>结果</dt>
-            <dd><strong>2 周拿到 2 个面试，最终获得 1 个 offer</strong></dd>
-          </dl>
           <blockquote class="quote">“不是学工具，是终于知道怎么用在自己的事上。”</blockquote>
         </article>
       </div>
@@ -663,13 +683,13 @@
         <p class="section-sub">不管是内容产出、重复咨询还是资料整理，先说清现状，我会告诉你从哪一步开始最省力。</p>
       </div>
 
-      <div class="grid grid-2">
-        <a class="card contact-card" href="mailto:ABCDEFG@163.com">
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:ABCDEFG@163.com">
           <span class="contact-label">邮箱</span>
           <strong>ABCDEFG@163.com</strong>
           <span class="hint">点击即可直接写邮件</span>
         </a>
-        <div class="card contact-card">
+        <div class="contact-card">
           <span class="contact-label">微信</span>
           <strong>ABCDEF</strong>
           <span class="hint">添加时备注「AI 咨询」，我会优先通过</span>
