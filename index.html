@@ -10,218 +10,230 @@
 <meta property="og:type" content="website">
 <style>
 /* ============================================================
-   1. 设计令牌（改这里就能整体换主题）
+   1. 设计令牌：单一强调色（墨绿，饱和度 < 80%）+ 中性纸白底
    ============================================================ */
 :root{
-  --bg:#F8FAF9;          /* 页面底色（浅色） */
-  --surface:#FFFFFF;     /* 卡片底色 */
-  --panel:#F1F6F4;       /* 强调块 / 面板底色 */
-  --ink:#12201D;         /* 标题色 */
-  --body:#4C5955;        /* 正文色 */
-  --muted:#7D8B87;       /* 次要信息 */
-  --line:#E2E9E6;        /* 分割线 / 描边 */
-  --primary:#0E3B34;     /* 主色：深墨绿 */
-  --primary-hover:#0A2C27;
-  --primary-2:#1B6357;   /* 主色辅助（眉标、标签） */
-  --radius:6px;
-  --maxw:1120px;
-  --sec-pad:96px;
+  --paper:#F7F6F2;
+  --surface:#FFFFFF;
+  --ink:#171B18;
+  --body:#4F5652;
+  --muted:#8A908B;
+  --line:#E2E1DA;
+  --line-strong:#CFCEC5;
+  --accent:#14372E;
+  --accent-hover:#0C2620;
+  --tint:#EDEFE8;
+  --radius:2px;
+  --maxw:1240px;
+  --pad:40px;
+  --rail:170px;
 }
 
 /* ============================================================
-   2. 基础重置与排版
+   2. 基础
    ============================================================ */
 *,*::before,*::after{box-sizing:border-box}
 html{
   scroll-behavior:smooth;
-  scroll-padding-top:88px;
+  scroll-padding-top:96px;
   -webkit-text-size-adjust:100%;
 }
 body{
   margin:0;
-  background:var(--bg);
+  background:var(--paper);
   color:var(--body);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
   font-size:16px;
   line-height:1.8;
+  font-feature-settings:"tnum" 1;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }
-h1,h2,h3{color:var(--ink);font-weight:600;letter-spacing:.02em}
+h1,h2,h3{color:var(--ink);font-weight:600;margin:0}
 p{margin:0}
+ul,ol,dl{margin:0;padding:0;list-style:none}
 a{color:inherit}
-img{max-width:100%;display:block}
+img{display:block;max-width:100%}
+::selection{background:#D8DED2;color:var(--ink)}
 
-/* 通用容器 */
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+  border-radius:1px;
+}
+
 .wrap{
   width:100%;
   max-width:var(--maxw);
   margin:0 auto;
-  padding:0 32px;
-}
-
-/* 键盘可达性 */
-:focus-visible{
-  outline:2px solid var(--primary-2);
-  outline-offset:3px;
-  border-radius:3px;
+  padding:0 var(--pad);
 }
 
 /* ============================================================
-   3. 组件：按钮
+   3. 微标签
+   ============================================================ */
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0 0 26px;
+  font-size:11.5px;
+  line-height:1.6;
+  letter-spacing:.18em;
+  color:var(--muted);
+}
+.eyebrow::before{
+  content:"";
+  width:24px;
+  height:1px;
+  background:var(--line-strong);
+  flex:none;
+}
+
+/* ============================================================
+   4. 按钮：锐角、无发光、按下有物理反馈
    ============================================================ */
 .btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   gap:8px;
-  padding:14px 30px;
-  border-radius:4px;
+  padding:13px 26px;
   border:1px solid transparent;
-  font-size:15px;
+  border-radius:var(--radius);
+  font-family:inherit;
+  font-size:14.5px;
   font-weight:500;
-  letter-spacing:.04em;
+  letter-spacing:.03em;
   text-decoration:none;
   cursor:pointer;
-  transition:background-color .18s ease,color .18s ease,border-color .18s ease;
+  transition:background-color .22s cubic-bezier(.16,1,.3,1),
+             border-color .22s cubic-bezier(.16,1,.3,1),
+             color .22s cubic-bezier(.16,1,.3,1),
+             transform .16s cubic-bezier(.16,1,.3,1);
   -webkit-tap-highlight-color:transparent;
 }
-.btn-primary{background:var(--primary);color:#fff}
-.btn-primary:hover{background:var(--primary-hover)}
-.btn-ghost{background:transparent;color:var(--primary);border-color:#C7D6D1}
-.btn-ghost:hover{background:#EAF1EE;border-color:var(--primary)}
-.btn-sm{padding:9px 20px;font-size:14px}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-sm{padding:9px 16px;font-size:13.5px}
+.btn:active{transform:translateY(1px)}
 
 /* ============================================================
-   4. 组件：区块标题组
-   ============================================================ */
-.eyebrow{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:0 0 20px;
-  font-size:12.5px;
-  line-height:1.6;
-  letter-spacing:.18em;
-  color:var(--primary-2);
-}
-.eyebrow::before{
-  content:"";
-  width:26px;
-  height:1px;
-  background:var(--primary-2);
-  flex:none;
-}
-.sec-head{max-width:660px;margin-bottom:52px}
-.sec-title{
-  margin:0 0 16px;
-  font-size:clamp(1.7rem,2.6vw,2.1rem);
-  line-height:1.35;
-}
-.sec-lead{
-  font-size:15.5px;
-  line-height:1.9;
-  color:var(--body);
-}
-
-/* ============================================================
-   5. 导航条
+   5. 导航
    ============================================================ */
 .nav{
   position:sticky;
   top:0;
-  z-index:50;
-  background:rgba(248,250,249,.9);
+  z-index:20;
+  background:rgba(247,246,242,.9);
   border-bottom:1px solid var(--line);
-  backdrop-filter:saturate(160%) blur(10px);
-  -webkit-backdrop-filter:saturate(160%) blur(10px);
+  backdrop-filter:saturate(140%) blur(10px);
+  -webkit-backdrop-filter:saturate(140%) blur(10px);
 }
 .nav-inner{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:24px;
-  height:68px;
+  height:72px;
 }
-.brand{
-  display:flex;
-  align-items:baseline;
-  gap:10px;
-  text-decoration:none;
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand-name{font-size:16.5px;font-weight:600;letter-spacing:.04em;color:var(--ink)}
+.brand-role{
+  padding-left:14px;
+  border-left:1px solid var(--line-strong);
+  font-size:11.5px;
+  letter-spacing:.14em;
+  color:var(--muted);
 }
-.brand-name{font-size:17px;font-weight:600;color:var(--ink);letter-spacing:.06em}
-.brand-role{font-size:12.5px;color:var(--muted);letter-spacing:.04em}
-.nav-right{display:flex;align-items:center;gap:38px}
-.nav-links{display:flex;gap:32px;margin:0;padding:0;list-style:none}
+.nav-right{display:flex;align-items:center;gap:44px}
+.nav-links{display:flex;gap:30px}
 .nav-links a{
-  font-size:14.5px;
+  position:relative;
+  font-size:13.5px;
+  letter-spacing:.06em;
   color:var(--body);
   text-decoration:none;
   padding:4px 0;
-  transition:color .18s ease;
+  transition:color .22s cubic-bezier(.16,1,.3,1);
 }
-.nav-links a:hover{color:var(--primary)}
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:1px;
+  background:var(--accent);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1)}
 
 /* ============================================================
-   6. 首屏 Hero
+   6. 首屏：非对称，文字压底、图在右
    ============================================================ */
-.hero{padding:92px 0 84px}
+.hero{padding:80px 0 0}
 .hero-grid{
   display:grid;
-  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  grid-template-columns:minmax(0,1fr) 400px;
   gap:72px;
-  align-items:center;
+  align-items:end;
 }
 .hero-name{
-  margin:0 0 14px;
-  font-size:clamp(2.6rem,5.6vw,4rem);
-  line-height:1.12;
-  letter-spacing:.08em;
+  font-size:clamp(2.5rem,4.2vw,3.2rem);
+  line-height:1.04;
+  letter-spacing:-.02em;
+  margin:0 0 12px;
 }
 .hero-role{
   display:flex;
   align-items:center;
   gap:14px;
-  margin:0 0 26px;
-  font-size:16px;
-  letter-spacing:.12em;
-  color:var(--primary);
+  margin:0 0 34px;
+  font-size:14px;
+  letter-spacing:.1em;
+  color:var(--accent);
 }
 .hero-role::after{
   content:"";
-  height:1px;
   flex:1;
-  max-width:56px;
-  background:#C7D6D1;
+  max-width:64px;
+  height:1px;
+  background:var(--line-strong);
 }
 .hero-lead{
-  margin:0 0 16px;
-  font-size:clamp(1.05rem,1.5vw,1.32rem);
-  line-height:1.75;
-  color:#2A3833;
-  max-width:26em;
+  margin:0 0 14px;
+  max-width:19em;
+  font-size:clamp(1.15rem,1.7vw,1.42rem);
+  line-height:1.62;
+  letter-spacing:-.01em;
+  color:var(--ink);
 }
 .hero-sub{
   margin:0;
-  font-size:15px;
+  max-width:30em;
+  font-size:14px;
   line-height:1.85;
   color:var(--muted);
 }
 .hero-actions{
   display:flex;
   flex-wrap:wrap;
-  gap:14px;
-  margin-top:38px;
+  gap:12px;
+  margin-top:40px;
 }
 
-/* 首屏右侧：个人照片 */
+/* 人像：唯一保留的“面”，锐角、无阴影 */
 .portrait{
   position:relative;
   margin:0;
   aspect-ratio:1 / 1;
-  background:#E7EEEB;
+  background:var(--tint);
   border:1px solid var(--line);
-  border-radius:8px;
+  border-radius:var(--radius);
   overflow:hidden;
 }
 .portrait img{
@@ -232,324 +244,426 @@ img{max-width:100%;display:block}
   height:auto;
 }
 
-/* 首屏下方：服务概览条 */
-.overview{
-  margin-top:64px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  overflow:hidden;
-}
+/* ============================================================
+   7. 服务概览：细线带，不是卡片
+   ============================================================ */
+.overview{margin-top:84px}
 .overview-head{
   display:flex;
-  align-items:center;
+  align-items:baseline;
   justify-content:space-between;
   gap:16px;
-  padding:15px 28px;
-  background:var(--panel);
-  border-bottom:1px solid var(--line);
+  padding:14px 0;
+  border-top:1px solid var(--line-strong);
 }
-.overview-title{font-size:13px;letter-spacing:.16em;color:var(--ink)}
-.overview-note{font-size:12.5px;color:var(--muted)}
+.overview-title{font-size:13px;letter-spacing:.1em;color:var(--ink)}
+.overview-note{font-size:11.5px;letter-spacing:.04em;color:var(--muted)}
 .overview-grid{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  margin:0;
-  padding:0;
-  list-style:none;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
 }
 .overview-grid li{
-  display:grid;
-  grid-template-columns:auto minmax(0,1fr);
-  align-items:center;
+  display:flex;
+  align-items:baseline;
   gap:16px;
-  padding:20px 30px;
+  padding:24px 30px 26px 0;
 }
-.overview-grid li + li{border-left:1px solid var(--line)}
-.ov-idx{font-size:12px;letter-spacing:.08em;color:var(--muted)}
-.ov-name{margin:0 0 3px;font-size:15px;line-height:1.5;color:var(--ink)}
+.overview-grid li + li{
+  border-left:1px solid var(--line);
+  padding-left:30px;
+}
+.ov-idx{
+  font-size:11px;
+  letter-spacing:.1em;
+  color:var(--muted);
+  font-variant-numeric:tabular-nums;
+}
+.ov-name{margin:0 0 2px;font-size:15px;line-height:1.5;color:var(--ink)}
 .ov-meta{margin:0;font-size:12.5px;line-height:1.6;color:var(--muted)}
-.ov-price{font-size:14px;font-weight:600;color:var(--primary);white-space:nowrap}
+.ov-price{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
 
 /* ============================================================
-   7. 区块通用
+   8. 区块外壳：左侧编号 + 标签栏，右侧内容
    ============================================================ */
-.section{padding:var(--sec-pad) 0}
-.section-bordered{border-top:1px solid var(--line)}
+.sec{padding:72px 0 84px;border-top:1px solid var(--line)}
+main{counter-reset:sec}
+.sec{counter-increment:sec}
+.sec-grid{
+  display:grid;
+  grid-template-columns:var(--rail) minmax(0,1fr);
+  gap:0 56px;
+  align-items:start;
+}
+.rail{
+  position:sticky;
+  top:104px;
+  padding-top:6px;
+}
+.rail::before{
+  content:counter(sec,decimal-leading-zero);
+  display:block;
+  margin-bottom:10px;
+  font-size:11.5px;
+  letter-spacing:.12em;
+  color:var(--muted);
+  font-variant-numeric:tabular-nums;
+}
+.rail-label{
+  display:block;
+  font-size:11.5px;
+  letter-spacing:.2em;
+  color:var(--accent);
+  text-transform:uppercase;
+}
+.sec-title{
+  font-size:clamp(1.6rem,2.2vw,1.95rem);
+  line-height:1.35;
+  letter-spacing:-.01em;
+  text-wrap:balance;
+}
+.sec-lead{
+  margin-top:16px;
+  max-width:54ch;
+  font-size:15px;
+  line-height:1.9;
+  color:var(--muted);
+}
 
 /* ============================================================
-   8. 服务
+   9. 服务：去卡片，细线分隔
    ============================================================ */
-.svc-list{display:flex;flex-direction:column;gap:20px}
+.svc-list{margin-top:52px;border-top:1px solid var(--line)}
 .svc{
   display:grid;
-  grid-template-columns:290px minmax(0,1fr);
-  gap:52px;
-  padding:38px 40px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  transition:border-color .2s ease;
+  grid-template-columns:minmax(0,300px) minmax(0,1fr);
+  gap:56px;
+  padding:38px 0 42px;
+  border-bottom:1px solid var(--line);
 }
-.svc:hover{border-color:#C7D6D1}
 .svc-left{display:flex;flex-direction:column}
 .svc-idx{
   display:block;
-  margin-bottom:14px;
-  font-size:12px;
-  letter-spacing:.18em;
+  margin-bottom:12px;
+  font-size:11px;
+  letter-spacing:.14em;
   color:var(--muted);
+  font-variant-numeric:tabular-nums;
 }
-.svc-title{margin:0 0 14px;font-size:20px;line-height:1.45}
-.svc-fit{margin:0 0 24px;font-size:14px;line-height:1.85;color:var(--body)}
+.svc-title{font-size:20px;line-height:1.45;letter-spacing:-.01em}
+.svc-fit{margin:14px 0 26px;font-size:13.5px;line-height:1.85;color:var(--body)}
 .svc-fit b{color:var(--ink);font-weight:600}
 .svc-price-row{
   display:flex;
   align-items:baseline;
-  gap:12px;
+  gap:14px;
   margin-top:auto;
-  padding-top:18px;
-  border-top:1px solid var(--line);
 }
-.svc-price{font-size:25px;font-weight:600;color:var(--primary);letter-spacing:.01em}
-.svc-cycle{font-size:13px;color:var(--muted)}
-.svc-note{margin-top:6px;font-size:12px;color:var(--muted)}
+.svc-price{
+  font-size:30px;
+  font-weight:500;
+  line-height:1;
+  letter-spacing:-.02em;
+  color:var(--accent);
+  font-variant-numeric:tabular-nums;
+}
+.svc-cycle{font-size:12.5px;letter-spacing:.04em;color:var(--muted)}
 
-.svc-block{margin-bottom:22px}
-.svc-block:last-child{margin-bottom:0}
+.svc-block + .svc-block{margin-top:24px}
 .block-label{
   margin:0 0 10px;
-  font-size:12px;
+  font-size:11px;
   font-weight:600;
-  letter-spacing:.16em;
-  color:var(--primary-2);
+  letter-spacing:.18em;
+  color:var(--muted);
 }
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{
-  padding:5px 13px;
+.svc-block > p:not(.block-label){font-size:14.5px;line-height:1.85;color:var(--body)}
+
+.deliver{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:32px;
+}
+.deliver li{
+  padding:9px 0;
+  border-top:1px solid var(--line);
   font-size:13.5px;
-  line-height:1.55;
-  color:var(--body);
-  background:#FCFDFC;
-  border:1px solid var(--line);
-  border-radius:999px;
+  line-height:1.6;
+  color:var(--ink);
 }
 .svc-result{
-  padding:14px 18px;
-  font-size:14.5px;
-  line-height:1.8;
-  color:#26332F;
-  background:var(--panel);
-  border-left:2px solid var(--primary-2);
-  border-radius:0 4px 4px 0;
+  padding-left:18px;
+  border-left:2px solid var(--accent);
+  font-size:15px !important;
+  line-height:1.8 !important;
+  color:var(--ink) !important;
 }
-.svc-result strong{color:var(--primary);font-weight:600}
+.svc-result strong{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
 
 /* ============================================================
-   9. 案例
+   10. 案例：7/5 错位 + 通栏横排，取消三列等宽
    ============================================================ */
 .case-grid{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:20px;
+  grid-template-columns:1.4fr 1fr;
+  margin-top:52px;
+  border-top:1px solid var(--line);
 }
 .case{
   display:flex;
   flex-direction:column;
-  padding:30px 28px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-}
-.case-head{
-  padding-bottom:16px;
-  margin-bottom:20px;
+  padding:34px 44px 36px 0;
   border-bottom:1px solid var(--line);
 }
-.case-name{margin:0 0 4px;font-size:16.5px;line-height:1.5}
-.case-type{font-size:12.5px;letter-spacing:.04em;color:var(--muted)}
+.case:nth-child(2){
+  border-left:1px solid var(--line);
+  padding-left:44px;
+  padding-right:0;
+}
+.case-head{padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+.case-name{font-size:17px;line-height:1.5;letter-spacing:-.01em}
+.case-type{display:block;margin-top:4px;font-size:12px;letter-spacing:.1em;color:var(--muted)}
 .case-row{
   display:grid;
-  grid-template-columns:32px minmax(0,1fr);
-  gap:10px;
-  margin-bottom:16px;
-  font-size:14.5px;
+  grid-template-columns:40px minmax(0,1fr);
+  gap:12px;
+  margin-bottom:14px;
+  font-size:14px;
   line-height:1.8;
 }
-.case-row .k{font-size:13px;color:var(--muted);line-height:1.95}
+.case-row .k{font-size:11.5px;letter-spacing:.12em;color:var(--muted);line-height:2.1}
 .case-row .v{color:var(--body)}
-.case-row .v strong{color:var(--primary);font-weight:600}
+.case-row .v strong{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
 .case-quote{
   margin-top:auto;
-  padding-top:18px;
+  padding-top:16px;
   border-top:1px solid var(--line);
-  font-size:14px;
+  font-size:13.5px;
   line-height:1.75;
-  color:var(--primary);
+  color:var(--accent);
 }
 .case-quote::before{content:"“"}
 .case-quote::after{content:"”"}
 
+/* 第三条：通栏横排三栏 */
+.case:nth-child(3){
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:200px minmax(0,1fr) 240px;
+  gap:44px;
+  align-items:stretch;
+  padding-right:0;
+}
+.case:nth-child(3) .case-head{
+  align-self:center;
+  padding-bottom:0;
+  margin-bottom:0;
+  border-bottom:0;
+}
+.case:nth-child(3) .case-quote{
+  display:flex;
+  align-items:center;
+  margin-top:0;
+  padding:0 0 0 24px;
+  border-top:0;
+  border-left:1px solid var(--line);
+  line-height:1.9;
+}
+
 /* ============================================================
-   10. 关于
+   11. 关于
    ============================================================ */
 .about-grid{
   display:grid;
-  grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);
-  gap:64px;
+  grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);
+  gap:72px;
   align-items:start;
+  margin-top:40px;
 }
 .about-text p{
-  margin:0 0 18px;
-  font-size:16px;
+  margin-bottom:18px;
+  font-size:15.5px;
   line-height:1.95;
+  max-width:58ch;
 }
 .about-text p:last-child{margin-bottom:0}
-.stats{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.stats{border-top:1px solid var(--line)}
 .stats li{
   display:flex;
   align-items:baseline;
   justify-content:space-between;
   gap:16px;
-  padding:18px 0;
+  padding:16px 0;
   border-bottom:1px solid var(--line);
 }
-.stat-num{font-size:24px;font-weight:600;color:var(--primary);letter-spacing:.02em}
-.stat-label{font-size:13.5px;color:var(--muted);text-align:right}
+.stat-num{
+  font-size:21px;
+  font-weight:500;
+  letter-spacing:-.02em;
+  color:var(--accent);
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+.stat-label{font-size:12px;line-height:1.6;color:var(--muted);text-align:right}
 
 /* ============================================================
-   11. 联系
+   12. 联系
    ============================================================ */
-.contact-panel{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,.95fr);
-  gap:56px;
-  padding:52px 56px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:8px;
+.contact-lead{
+  margin-top:16px;
+  max-width:50ch;
+  font-size:15px;
+  line-height:1.9;
+  color:var(--body);
 }
-.contact-panel h2{
-  margin:0 0 16px;
-  font-size:clamp(1.5rem,2.3vw,1.85rem);
-  line-height:1.4;
-}
-.contact-panel .sec-lead{font-size:15px}
-.contact-list{border-top:1px solid #DCE6E2}
-.contact-item{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;
-  gap:16px;
-  padding:16px 0;
-  border-bottom:1px solid #DCE6E2;
-}
-.ci-label{
-  display:block;
-  margin-bottom:2px;
-  font-size:12px;
-  letter-spacing:.14em;
-  color:var(--muted);
-}
-.ci-value{
-  font-size:16px;
-  font-weight:500;
-  color:var(--ink);
-  text-decoration:none;
-  word-break:break-all;
-  transition:color .18s ease;
-}
-a.ci-value:hover{color:var(--primary-2);text-decoration:underline;text-underline-offset:3px}
-.copy-btn{
-  padding:6px 14px;
-  font-family:inherit;
-  font-size:12.5px;
-  color:var(--primary);
-  background:#fff;
-  border:1px solid #C7D6D1;
-  border-radius:3px;
-  cursor:pointer;
-  white-space:nowrap;
-  transition:background-color .18s ease,color .18s ease,border-color .18s ease;
-}
-.copy-btn:hover{background:#EAF1EE;border-color:var(--primary)}
-.copy-btn.is-done{background:var(--primary);border-color:var(--primary);color:#fff}
-.contact-actions{margin-top:22px}
-.contact-actions .btn{width:100%;padding:13px 20px;font-size:14.5px}
 .contact-tip{
-  margin-top:22px;
-  font-size:13px;
+  margin-top:14px;
+  font-size:12.5px;
   line-height:1.8;
   color:var(--muted);
 }
+.contact-list{
+  margin-top:40px;
+  border-top:1px solid var(--line);
+}
+.contact-item{
+  display:grid;
+  grid-template-columns:104px minmax(0,1fr) auto;
+  align-items:center;
+  gap:20px;
+  padding:18px 0;
+  border-bottom:1px solid var(--line);
+}
+.ci-label{font-size:11.5px;letter-spacing:.16em;color:var(--muted)}
+.ci-value{
+  font-size:17px;
+  font-weight:500;
+  letter-spacing:.01em;
+  color:var(--ink);
+  text-decoration:none;
+  word-break:break-all;
+  transition:color .22s cubic-bezier(.16,1,.3,1);
+}
+a.ci-value:hover{color:var(--accent);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.copy-btn{
+  padding:6px 12px;
+  font-family:inherit;
+  font-size:12px;
+  letter-spacing:.04em;
+  color:var(--muted);
+  background:transparent;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  cursor:pointer;
+  white-space:nowrap;
+  transition:color .2s,border-color .2s,background-color .2s;
+}
+.copy-btn:hover{color:var(--accent);border-color:var(--line-strong)}
+.copy-btn.is-done{color:#fff;background:var(--accent);border-color:var(--accent)}
+.contact-cta{margin-top:36px}
 
 /* ============================================================
-   12. 页脚
+   13. 页脚
    ============================================================ */
 .footer{
   border-top:1px solid var(--line);
-  padding:30px 0;
+  padding:26px 0 34px;
 }
 .footer-inner{
   display:flex;
-  align-items:center;
+  align-items:baseline;
   justify-content:space-between;
-  gap:20px;
+  gap:16px;
   flex-wrap:wrap;
-  font-size:13px;
+  font-size:12px;
   color:var(--muted);
 }
 
 /* ============================================================
-   13. 响应式
+   14. 动效：静态档（仅 hover / active 过渡，无自动播放动画）
+   避免出现「动画未执行时内容不可见」的脆弱状态
    ============================================================ */
-@media (max-width:980px){
-  :root{--sec-pad:72px}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{animation:none !important;transition:none !important}
+}
+
+/* ============================================================
+   15. 响应式：<900px 全部回单列，杜绝横向溢出
+   ============================================================ */
+@media (max-width:1040px){
+  .hero-grid{grid-template-columns:minmax(0,1fr) 340px;gap:48px}
+  .sec-grid{grid-template-columns:140px minmax(0,1fr);gap:0 40px}
+  .svc{grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:40px}
+  .about-grid{gap:48px}
+  /* 第三条案例提前折叠，避免中栏被压成窄条 */
+  .case:nth-child(3){grid-template-columns:1fr;gap:20px}
+  .case:nth-child(3) .case-head{
+    align-self:auto;
+    padding-bottom:16px;
+    margin-bottom:20px;
+    border-bottom:1px solid var(--line);
+  }
+  .case:nth-child(3) .case-quote{
+    display:block;
+    align-items:initial;
+    margin-top:18px;
+    padding:16px 0 0;
+    border-left:0;
+    border-top:1px solid var(--line);
+  }
+}
+
+@media (max-width:900px){
+  :root{--pad:28px}
   .nav-links{display:none}
   .nav-right{gap:0}
-  .hero{padding:64px 0 60px}
-  .hero-grid{grid-template-columns:1fr;gap:44px}
+  .hero{padding:56px 0 0}
+  .hero-grid{grid-template-columns:1fr;gap:40px;align-items:start}
+  .portrait{max-width:420px}
   .hero-lead{max-width:none}
-  .portrait{max-width:460px}
-  .overview{margin-top:48px}
-  .overview-grid li{padding:18px 22px}
-  .svc{grid-template-columns:1fr;gap:26px;padding:30px 28px}
-  .svc-fit{margin-bottom:20px}
-  .case-grid{grid-template-columns:1fr;gap:16px}
-  .about-grid{grid-template-columns:1fr;gap:36px}
-  .contact-panel{grid-template-columns:1fr;gap:32px;padding:38px 32px}
-}
-
-@media (max-width:640px){
-  .wrap{padding:0 20px}
-  :root{--sec-pad:56px}
-  .nav-inner{height:60px}
-  .brand-role{display:none}
-  .hero{padding:52px 0 48px}
-  .hero-name{letter-spacing:.06em}
-  .hero-actions{gap:10px;margin-top:30px}
-  .hero-actions .btn{flex:1 1 140px;padding:13px 18px}
-  .portrait{border-radius:6px;max-width:none}
-  .overview{margin-top:36px}
-  .overview-head{flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px}
+  .overview{margin-top:56px}
   .overview-grid{grid-template-columns:1fr}
-  .overview-grid li{padding:16px 18px;gap:12px}
-  .overview-grid li + li{border-left:0;border-top:1px solid var(--line)}
-  .sec-head{margin-bottom:36px}
-  .svc{padding:26px 20px;gap:22px}
-  .svc-title{font-size:18.5px}
-  .svc-price{font-size:22px}
-  .case{padding:24px 20px}
-  .contact-panel{padding:30px 22px}
-  .contact-item{grid-template-columns:minmax(0,1fr) auto;gap:12px}
-  .ci-value{font-size:15px}
-  .footer-inner{flex-direction:column;align-items:flex-start;gap:6px}
+  .overview-grid li{padding:18px 0}
+  .overview-grid li + li{
+    border-left:0;
+    border-top:1px solid var(--line);
+    padding-left:0;
+  }
+  .sec{padding:56px 0 64px}
+  .sec-grid{grid-template-columns:1fr;gap:22px}
+  .rail{position:static;display:flex;align-items:baseline;gap:12px;padding-top:0}
+  .rail::before{margin-bottom:0}
+  .svc{grid-template-columns:1fr;gap:26px;padding:30px 0 34px}
+  .svc-fit{margin-bottom:20px}
+  .case-grid{grid-template-columns:1fr}
+  .case{padding:28px 0 30px}
+  .case:nth-child(2){border-left:0;padding-left:0}
+  .case:nth-child(3){grid-template-columns:1fr;gap:20px}
+  .case:nth-child(3) .case-head{padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+  .case:nth-child(3) .case-quote{
+    padding-left:0;
+    border-left:0;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+    margin-top:18px;
+  }
+  .about-grid{grid-template-columns:1fr;gap:32px}
 }
 
-/* 尊重系统「减少动态效果」设置 */
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *{transition:none !important}
+@media (max-width:560px){
+  :root{--pad:20px}
+  .brand-role{display:none}
+  .hero-name{font-size:2.35rem}
+  .hero-actions{gap:10px}
+  .hero-actions .btn{flex:1 1 140px;padding:12px 16px}
+  .overview-head{flex-direction:column;align-items:flex-start;gap:4px}
+  .deliver{grid-template-columns:1fr}
+  .contact-item{grid-template-columns:minmax(0,1fr) auto;gap:8px 14px;padding:16px 0}
+  .ci-label{grid-column:1 / -1}
+  .ci-value{font-size:15.5px}
+  .footer-inner{flex-direction:column;gap:6px}
 }
 </style>
 </head>
@@ -593,13 +707,12 @@ a.ci-value:hover{color:var(--primary-2);text-decoration:underline;text-underline
         </div>
       </div>
 
-      <!-- 首屏右侧：个人照片 -->
       <figure class="portrait">
         <img src="assets/axin-portrait.webp" width="860" height="773" alt="阿欣，AI 赋能顾问">
       </figure>
     </div>
 
-    <!-- 首屏下方：服务概览条 -->
+    <!-- 服务概览 -->
     <div class="wrap">
       <div class="overview">
         <div class="overview-head">
@@ -634,213 +747,225 @@ a.ci-value:hover{color:var(--primary-2);text-decoration:underline;text-underline
   </section>
 
   <!-- ========== 服务 / 课程 ========== -->
-  <section id="services" class="section section-bordered">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Services</p>
+  <section id="services" class="sec">
+    <div class="wrap sec-grid">
+      <div class="rail">
+        <span class="rail-label">Services</span>
+      </div>
+      <div class="sec-body">
         <h2 class="sec-title">AI 服务 / 课程</h2>
         <p class="sec-lead">三项服务按阶段递进：先把内容产出变成流程，再把重复工作交给 AI，最后自己学会用工具。都从一次诊断开始，先看清问题再动手。</p>
-      </div>
 
-      <div class="svc-list">
+        <div class="svc-list">
 
-        <!-- 服务一 -->
-        <article class="svc">
-          <div class="svc-left">
-            <span class="svc-idx">01</span>
-            <h3 class="svc-title">AI 内容工作流搭建</h3>
-            <p class="svc-fit"><b>适合：</b>一人公司主理人、独立顾问、内容运营</p>
-            <div class="svc-price-row">
-              <span class="svc-price">¥1999</span>
-              <span class="svc-cycle">周期 7 天</span>
-            </div>
-          </div>
-          <div class="svc-right">
-            <div class="svc-block">
-              <p class="block-label">解决</p>
-              <p>选题靠灵感、产出不稳定、AI 用了但不成体系。</p>
-            </div>
-            <div class="svc-block">
-              <p class="block-label">交付</p>
-              <div class="chips">
-                <span class="chip">1 次诊断</span>
-                <span class="chip">1 套内容工作流 SOP</span>
-                <span class="chip">3 个提示词模板</span>
-                <span class="chip">60 分钟答疑</span>
+          <!-- 服务一 -->
+          <article class="svc">
+            <div class="svc-left">
+              <span class="svc-idx">01</span>
+              <h3 class="svc-title">AI 内容工作流搭建</h3>
+              <p class="svc-fit"><b>适合：</b>一人公司主理人、独立顾问、内容运营</p>
+              <div class="svc-price-row">
+                <span class="svc-price">¥1999</span>
+                <span class="svc-cycle">周期 7 天</span>
               </div>
             </div>
-            <div class="svc-block">
-              <p class="block-label">结果</p>
-              <p class="svc-result">从<strong>每周 2 篇</strong>到<strong> 6 篇</strong>，单篇初稿<strong> 90 分钟</strong>降到<strong> 25 分钟</strong>。</p>
-            </div>
-          </div>
-        </article>
-
-        <!-- 服务二 -->
-        <article class="svc">
-          <div class="svc-left">
-            <span class="svc-idx">02</span>
-            <h3 class="svc-title">一人公司 AI 提效咨询</h3>
-            <p class="svc-fit"><b>适合：</b>一人公司、自由职业者、小团队负责人</p>
-            <div class="svc-price-row">
-              <span class="svc-price">¥2999</span>
-              <span class="svc-cycle">周期 14 天</span>
-            </div>
-          </div>
-          <div class="svc-right">
-            <div class="svc-block">
-              <p class="block-label">解决</p>
-              <p>客服、报价、合同、资料整理等重复工作耗时。</p>
-            </div>
-            <div class="svc-block">
-              <p class="block-label">交付</p>
-              <div class="chips">
-                <span class="chip">1 次 90 分钟诊断</span>
-                <span class="chip">1 份 AI 提效地图</span>
-                <span class="chip">1 个优先场景落地方案</span>
-                <span class="chip">7 天答疑</span>
+            <div class="svc-right">
+              <div class="svc-block">
+                <p class="block-label">解决</p>
+                <p>选题靠灵感、产出不稳定、AI 用了但不成体系。</p>
+              </div>
+              <div class="svc-block">
+                <p class="block-label">交付</p>
+                <ul class="deliver">
+                  <li>1 次诊断</li>
+                  <li>1 套内容工作流 SOP</li>
+                  <li>3 个提示词模板</li>
+                  <li>60 分钟答疑</li>
+                </ul>
+              </div>
+              <div class="svc-block">
+                <p class="block-label">结果</p>
+                <p class="svc-result">从<strong>每周 2 篇</strong>到<strong> 6 篇</strong>，单篇初稿<strong> 90 分钟</strong>降到<strong> 25 分钟</strong>。</p>
               </div>
             </div>
-            <div class="svc-block">
-              <p class="block-label">结果</p>
-              <p class="svc-result">客服重复问题减少<strong> 60%</strong>，响应从<strong> 4 小时</strong>到<strong> 10 分钟</strong>。</p>
-            </div>
-          </div>
-        </article>
+          </article>
 
-        <!-- 服务三 -->
-        <article class="svc">
-          <div class="svc-left">
-            <span class="svc-idx">03</span>
-            <h3 class="svc-title">AI 工具入门陪跑</h3>
-            <p class="svc-fit"><b>适合：</b>职场人、想用 AI 但不知从何下手的人</p>
-            <div class="svc-price-row">
-              <span class="svc-price">¥999</span>
-              <span class="svc-cycle">周期 4 周</span>
-            </div>
-          </div>
-          <div class="svc-right">
-            <div class="svc-block">
-              <p class="block-label">解决</p>
-              <p>工具太多、学完就忘、不知道用在哪里。</p>
-            </div>
-            <div class="svc-block">
-              <p class="block-label">交付</p>
-              <div class="chips">
-                <span class="chip">4 周陪跑</span>
-                <span class="chip">每周 1 次 60 分钟会议</span>
-                <span class="chip">每周任务</span>
-                <span class="chip">工具模板</span>
-                <span class="chip">群答疑</span>
+          <!-- 服务二 -->
+          <article class="svc">
+            <div class="svc-left">
+              <span class="svc-idx">02</span>
+              <h3 class="svc-title">一人公司 AI 提效咨询</h3>
+              <p class="svc-fit"><b>适合：</b>一人公司、自由职业者、小团队负责人</p>
+              <div class="svc-price-row">
+                <span class="svc-price">¥2999</span>
+                <span class="svc-cycle">周期 14 天</span>
               </div>
             </div>
-            <div class="svc-block">
-              <p class="block-label">结果</p>
-              <p class="svc-result">能独立用 AI 完成<strong>周报</strong>、<strong>会议纪要</strong>、<strong>PPT 大纲</strong>、<strong>资料总结</strong>。</p>
+            <div class="svc-right">
+              <div class="svc-block">
+                <p class="block-label">解决</p>
+                <p>客服、报价、合同、资料整理等重复工作耗时。</p>
+              </div>
+              <div class="svc-block">
+                <p class="block-label">交付</p>
+                <ul class="deliver">
+                  <li>1 次 90 分钟诊断</li>
+                  <li>1 份 AI 提效地图</li>
+                  <li>1 个优先场景落地方案</li>
+                  <li>7 天答疑</li>
+                </ul>
+              </div>
+              <div class="svc-block">
+                <p class="block-label">结果</p>
+                <p class="svc-result">客服重复问题减少<strong> 60%</strong>，响应从<strong> 4 小时</strong>到<strong> 10 分钟</strong>。</p>
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
 
+          <!-- 服务三 -->
+          <article class="svc">
+            <div class="svc-left">
+              <span class="svc-idx">03</span>
+              <h3 class="svc-title">AI 工具入门陪跑</h3>
+              <p class="svc-fit"><b>适合：</b>职场人、想用 AI 但不知从何下手的人</p>
+              <div class="svc-price-row">
+                <span class="svc-price">¥999</span>
+                <span class="svc-cycle">周期 4 周</span>
+              </div>
+            </div>
+            <div class="svc-right">
+              <div class="svc-block">
+                <p class="block-label">解决</p>
+                <p>工具太多、学完就忘、不知道用在哪里。</p>
+              </div>
+              <div class="svc-block">
+                <p class="block-label">交付</p>
+                <ul class="deliver">
+                  <li>4 周陪跑</li>
+                  <li>每周 1 次 60 分钟会议</li>
+                  <li>每周任务</li>
+                  <li>工具模板</li>
+                  <li>群答疑</li>
+                </ul>
+              </div>
+              <div class="svc-block">
+                <p class="block-label">结果</p>
+                <p class="svc-result">能独立用 AI 完成<strong>周报</strong>、<strong>会议纪要</strong>、<strong>PPT 大纲</strong>、<strong>资料总结</strong>。</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ========== 案例 ========== -->
-  <section id="cases" class="section section-bordered">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Cases</p>
+  <section id="cases" class="sec">
+    <div class="wrap sec-grid">
+      <div class="rail">
+        <span class="rail-label">Cases</span>
+      </div>
+      <div class="sec-body">
         <h2 class="sec-title">案例</h2>
         <p class="sec-lead">三个不同类型的服务过程，问题、做法、结果按实际情况记录。</p>
-      </div>
 
-      <div class="case-grid">
+        <div class="case-grid">
 
-        <article class="case">
-          <div class="case-head">
-            <h3 class="case-name">小满咨询</h3>
-            <span class="case-type">独立职业规划顾问</span>
-          </div>
-          <div class="case-row"><span class="k">问题</span><span class="v">每周只能写 2 篇内容，线索不稳定。</span></div>
-          <div class="case-row"><span class="k">做法</span><span class="v">搭建 AI 内容工作流，选题、初稿、改写、配图提示词一条线。</span></div>
-          <div class="case-row"><span class="k">结果</span><span class="v"><strong>每周 6 篇</strong>，2 个月线索从每月 8 条到 <strong>21 条</strong>。</span></div>
-          <p class="case-quote">以前是追着灵感跑，现在是按流程出内容。</p>
-        </article>
+          <article class="case">
+            <div class="case-head">
+              <h3 class="case-name">小满咨询</h3>
+              <span class="case-type">独立职业规划顾问</span>
+            </div>
+            <div class="case-body">
+              <div class="case-row"><span class="k">问题</span><span class="v">每周只能写 2 篇内容，线索不稳定。</span></div>
+              <div class="case-row"><span class="k">做法</span><span class="v">搭建 AI 内容工作流，选题、初稿、改写、配图提示词一条线。</span></div>
+              <div class="case-row"><span class="k">结果</span><span class="v"><strong>每周 6 篇</strong>，2 个月线索从每月 8 条到 <strong>21 条</strong>。</span></div>
+            </div>
+            <p class="case-quote">以前是追着灵感跑，现在是按流程出内容。</p>
+          </article>
 
-        <article class="case">
-          <div class="case-head">
-            <h3 class="case-name">林记设计工作室</h3>
-            <span class="case-type">一人公司</span>
-          </div>
-          <div class="case-row"><span class="k">问题</span><span class="v">重复咨询多，响应慢，主理人经常被打断。</span></div>
-          <div class="case-row"><span class="k">做法</span><span class="v">搭建 AI 客服问答库，常见问题自动回复。</span></div>
-          <div class="case-row"><span class="k">结果</span><span class="v">重复问题减少 <strong>60%</strong>，响应从 4 小时到 <strong>10 分钟</strong>，每月省 <strong>12 小时</strong>。</span></div>
-          <p class="case-quote">不用每次重新打字解释同样的问题了。</p>
-        </article>
+          <article class="case">
+            <div class="case-head">
+              <h3 class="case-name">林记设计工作室</h3>
+              <span class="case-type">一人公司</span>
+            </div>
+            <div class="case-body">
+              <div class="case-row"><span class="k">问题</span><span class="v">重复咨询多，响应慢，主理人经常被打断。</span></div>
+              <div class="case-row"><span class="k">做法</span><span class="v">搭建 AI 客服问答库，常见问题自动回复。</span></div>
+              <div class="case-row"><span class="k">结果</span><span class="v">重复问题减少 <strong>60%</strong>，响应从 4 小时到 <strong>10 分钟</strong>，每月省 <strong>12 小时</strong>。</span></div>
+            </div>
+            <p class="case-quote">不用每次重新打字解释同样的问题了。</p>
+          </article>
 
-        <article class="case">
-          <div class="case-head">
-            <h3 class="case-name">小林</h3>
-            <span class="case-type">市场专员</span>
-          </div>
-          <div class="case-row"><span class="k">问题</span><span class="v">简历和面试准备没方向，投了很多没回音。</span></div>
-          <div class="case-row"><span class="k">做法</span><span class="v">参加 AI 工具入门陪跑，用 AI 梳理经历、优化简历、模拟面试。</span></div>
-          <div class="case-row"><span class="k">结果</span><span class="v">2 周拿到 <strong>2 个面试</strong>，最终获得 <strong>1 个 offer</strong>。</span></div>
-          <p class="case-quote">不是学工具，是终于知道怎么用在自己的事上。</p>
-        </article>
+          <article class="case">
+            <div class="case-head">
+              <h3 class="case-name">小林</h3>
+              <span class="case-type">市场专员</span>
+            </div>
+            <div class="case-body">
+              <div class="case-row"><span class="k">问题</span><span class="v">简历和面试准备没方向，投了很多没回音。</span></div>
+              <div class="case-row"><span class="k">做法</span><span class="v">参加 AI 工具入门陪跑，用 AI 梳理经历、优化简历、模拟面试。</span></div>
+              <div class="case-row"><span class="k">结果</span><span class="v">2 周拿到 <strong>2 个面试</strong>，最终获得 <strong>1 个 offer</strong>。</span></div>
+            </div>
+            <p class="case-quote">不是学工具，是终于知道怎么用在自己的事上。</p>
+          </article>
 
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ========== 关于 ========== -->
-  <section id="about" class="section section-bordered">
-    <div class="wrap about-grid">
-      <div>
-        <p class="eyebrow">About</p>
+  <section id="about" class="sec">
+    <div class="wrap sec-grid">
+      <div class="rail">
+        <span class="rail-label">About</span>
+      </div>
+      <div class="sec-body">
         <h2 class="sec-title">关于</h2>
-        <div class="about-text">
-          <p>5 年内容与运营经验，专注 AI 在真实工作场景中的落地。已陪跑 30+ 一人公司和职场人。</p>
-          <p>我做的事很具体：不教工具，而是把你手上那摊活拆开，找出哪几步可以交给 AI，再落成一套能每天照着跑的流程。很多人学完就忘，问题不在工具，在于学的动作和自己的活没有绑在一起。</p>
-          <p>所以每一次合作都从一次诊断开始：先看你现在怎么做事、卡在哪、哪些环节最值得先动。做不到的我会直说。</p>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>5 年内容与运营经验，专注 AI 在真实工作场景中的落地。已陪跑 30+ 一人公司和职场人。</p>
+            <p>我做的事很具体：不教工具，而是把你手上那摊活拆开，找出哪几步可以交给 AI，再落成一套能每天照着跑的流程。很多人学完就忘，问题不在工具，在于学的动作和自己的活没有绑在一起。</p>
+            <p>所以每一次合作都从一次诊断开始：先看你现在怎么做事、卡在哪、哪些环节最值得先动。做不到的我会直说。</p>
+          </div>
+          <ul class="stats">
+            <li><span class="stat-num">5 年</span><span class="stat-label">内容与运营经验</span></li>
+            <li><span class="stat-num">30+</span><span class="stat-label">已陪跑的一人公司与职场人</span></li>
+            <li><span class="stat-num">7–14 天</span><span class="stat-label">方案交付周期</span></li>
+          </ul>
         </div>
       </div>
-      <ul class="stats">
-        <li><span class="stat-num">5 年</span><span class="stat-label">内容与运营经验</span></li>
-        <li><span class="stat-num">30+</span><span class="stat-label">已陪跑的一人公司与职场人</span></li>
-        <li><span class="stat-num">7–14 天</span><span class="stat-label">方案交付周期</span></li>
-      </ul>
     </div>
   </section>
 
   <!-- ========== 联系 ========== -->
-  <section id="contact" class="section section-bordered">
-    <div class="wrap">
-      <div class="contact-panel">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2>聊聊你现在的卡点</h2>
-          <p class="sec-lead">不确定适合哪一项，也没关系。把你的场景和卡点写给我，我先帮你判断该不该做、先做哪一步，再决定要不要合作。</p>
-          <p class="contact-tip">工作日内一般 24 小时内回复。加微信请备注「AI 咨询」。</p>
-        </div>
+  <section id="contact" class="sec">
+    <div class="wrap sec-grid">
+      <div class="rail">
+        <span class="rail-label">Contact</span>
+      </div>
+      <div class="sec-body">
+        <h2 class="sec-title">聊聊你现在的卡点</h2>
+        <p class="contact-lead">不确定适合哪一项，也没关系。把你的场景和卡点写给我，我先帮你判断该不该做、先做哪一步，再决定要不要合作。</p>
+        <p class="contact-tip">工作日内一般 24 小时内回复。加微信请备注「AI 咨询」。</p>
+
         <div class="contact-list">
           <div class="contact-item">
-            <div>
-              <span class="ci-label">邮箱</span>
-              <a class="ci-value" href="mailto:axinshuogep@163.com">axinshuogep@163.com</a>
-            </div>
+            <span class="ci-label">邮箱</span>
+            <a class="ci-value" href="mailto:axinshuogep@163.com">axinshuogep@163.com</a>
             <button class="copy-btn" type="button" data-copy="axinshuogep@163.com">复制</button>
           </div>
           <div class="contact-item">
-            <div>
-              <span class="ci-label">微信</span>
-              <span class="ci-value">zy01011234</span>
-            </div>
+            <span class="ci-label">微信</span>
+            <span class="ci-value">zy01011234</span>
             <button class="copy-btn" type="button" data-copy="zy01011234">复制</button>
           </div>
-          <div class="contact-actions">
-            <a class="btn btn-primary" href="mailto:axinshuogep@163.com?subject=AI%20%E5%92%A8%E8%AF%A2%EF%BC%9A%E6%88%91%E7%9A%84%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%8D%A1%E7%82%B9">写邮件，说说你的场景和卡点</a>
-          </div>
+        </div>
+
+        <div class="contact-cta">
+          <a class="btn btn-primary" href="mailto:axinshuogep@163.com?subject=AI%20%E5%92%A8%E8%AF%A2%EF%BC%9A%E6%88%91%E7%9A%84%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%8D%A1%E7%82%B9">写邮件，说说你的场景和卡点</a>
         </div>
       </div>
     </div>
